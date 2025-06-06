@@ -38,3 +38,32 @@ gerenciador-de-senhas/
 │ └── key_fLHza.key # Arquivo que é gerado automaticamente e armazena as chaves de cada senha e domínio
 ├── venv/ # Ambiente virtual (opcional)
 └── README.md # Este arquivo
+
+---
+
+## 🚀 Como Rodar o Projeto
+
+### 1. Clone o repositório
+
+```bash
+git clone https://github.com/seu-usuario/gerenciador-de-senhas.git
+cd gerenciador-de-senhas
+
+---
+
+### Crie um ambiente virtual (opcional, mas recomendado)
+
+```bash
+python -m venv venv
+source venv/bin/activate  # Linux/macOS
+venv\Scripts\activate     # Windows
+
+## Instale as dependências
+```bash
+pip install cryptography
+
+### Execute o script principal
+
+```bash
+python templates/template.py
+---
