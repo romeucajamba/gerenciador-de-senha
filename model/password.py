@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from base import BaseModel
+from model.base import BaseModel
 
 class Password(BaseModel):
     def __init__(self, domain=None, password=None, expire=False):
