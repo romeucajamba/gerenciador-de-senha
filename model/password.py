@@ -7,7 +7,3 @@ class Password(BaseModel):
         self.domain = domain
         self.password = password
         self.create_at = datetime.now().isoformat()
-
-
-password_1 = Password(domain="sonangol.co.ao", password="yeyte74")
-password_1.save()

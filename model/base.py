@@ -18,7 +18,23 @@ class BaseModel:
 
     @classmethod
     def get(cls):
-      table_path = Path(cls.DB_DIR / f'{cls.__name__}.txt')
+        table_path = Path(cls.DB_DIR / f'{cls.__name__}.txt')
 
-      if not table_path.exists():
-        table_path.touch()
+        if not table_path.exists():
+            table_path.touch()
+    
+        with open(table_path, 'r') as arq:
+           x = arq.readlines()
+           
+        results = [] 
+        
+        atributes = vars(cls())
+
+        for i in x:
+           split_v = i.split('|')
+           tmp_dict = dict(zip(atributes, split_v))
+           results.append(tmp_dict)
+        
+        return results
+
+
