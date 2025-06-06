@@ -1,6 +1,6 @@
 import string, secrets, hashlib, base64
 from pathlib import Path #biblioteca que me auxilia manipular  ou criar directorios
-from cryptography.fernet import Fernet # A classe Fernet é usada para criptografia simétrica, permitindo criptografar e descriptografar dados
+from cryptography.fernet import Fernet, InvalidToken # A classe Fernet é usada para criptografia simétrica, permitindo criptografar e descriptografar dados
 
 class FernetHasher:
     RABDOM_STRINGCHARS = string.ascii_lowercase + string.ascii_uppercase #Gerando letras minúsculas e maiúsculas
@@ -13,7 +13,7 @@ class FernetHasher:
         if not isinstance(key, bytes):
             key = key.encode()  # Certificando-se de que a chave seja convertida em bytes caso seja uma string
 
-        self.fernat = Fernet(key)
+        self.fernet = Fernet(key)
 
     @classmethod
     def _get_random_string(cls, length=25):
@@ -51,7 +51,15 @@ class FernetHasher:
             arq.write(key)  # Escrevendo a chave no arquivo em formato binário
 
         return cls.KEY_DIR / file
+    
+    def encrypt(self, value):
+        if not isinstance(value, bytes):
+            value = value.encode()
 
-print(FernetHasher.create_key(arquive=True))  # Cria uma chave e arquiva
-# A classe FernetHasher gera uma chave aleatória de 25 caracteres
-# A chave é composta por letras minúsculas e maiúsculas
+        return self.fernet.encrypt(value)
+    
+    def decrypt(self, value):
+        try:
+            return self.fernet.decrypt(value).decode()
+        except InvalidToken as error:
+            return "Token inválido!"
