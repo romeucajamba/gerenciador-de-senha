@@ -1,5 +1,6 @@
 import string, secrets, hashlib, base64
 from pathlib import Path #biblioteca que me auxilia manipular  ou criar directorios
+from cryptography.fernet import Fernet # A classe Fernet é usada para criptografia simétrica, permitindo criptografar e descriptografar dados
 
 class FernetHasher:
     RABDOM_STRINGCHARS = string.ascii_lowercase + string.ascii_uppercase #Gerando letras minúsculas e maiúsculas
@@ -8,15 +9,20 @@ class FernetHasher:
     KEY_DIR = BASE_DIR / 'keys'  # Diretório onde as chaves serão armazenadas
     # O operador / é usado para construir caminhos de forma portátil
 
+    def __init__(self, key):
+        if not isinstance(key, bytes):
+            key = key.encode()  # Certificando-se de que a chave seja convertida em bytes caso seja uma string
+
+        self.fernat = Fernet(key)
 
     @classmethod
     def _get_random_string(cls, length=25):
-        string = ""
+        string_to = ""
         for i in range(length):
             #Desse jeito me gera senha aleatória com 25 caracteres
             #Podendo ser letras minúsculas ou maiúsculas
-            string += secrets.choice(cls.RABDOM_STRINGCHARS) #Pegando as letras minusculas ou maiúsculas aleatoriamente
-        return string
+            string_to += secrets.choice(cls.RABDOM_STRINGCHARS) #Pegando as letras minusculas ou maiúsculas aleatoriamente
+        return string_to
     
     @classmethod 
     def create_key(cls, arquive=False):
